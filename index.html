@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion App</title>
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1> Discussion Portal</h1>
+    </header>
+
+    <div class="container">
+
+        <div id="box1">
+
+            <button id="newform"> New Question Form</button>
+            <input type="text" name="search-question" id="search" placeholder=" search question...">
+
+            <div id="add-question">
+            </div>
+        </div>
+
+        <div id="box2" class="">
+
+            <div id="portal">
+                <h1>Welcome to Discussion Portal !</h1>
+                <p>Enter a subject and question to get started</p>
+                <form action="">
+                    <input type="text" name="subject" id="subject" placeholder=" Subject"><br>
+                    <textarea id="text-question" rows="10" cols="75" placeholder="Questions"></textarea><br>
+                    <button id="submit-btn" type="button">Submit</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div id="box3" class="hide">
+
+            <div class="question-box">
+                <p>Question</p>
+                <div id="display">
+                    
+                </div>
+                <button type="button" id="resolve">Resolve</button><br>
+            </div>
+
+            <div class="response">
+                <p>Response</p>
+                <div id="response-box">
+                </div>
+            </div>
+
+            <div class="add-response">
+                <p>Add Response</p>
+                <input type="text" name="" id="response-name" placeholder="Enter Name"><br>
+                <textarea name="" id="response-area" cols="85" rows="8" placeholder="Enter Comment"></textarea>
+                <button id="response-btn" type="button">Submit</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

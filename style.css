@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #7B3FD3;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    color: white;
+}
+
+.container {
+    border-bottom: 2px solid grey;
+    display: flex;
+    width: 100%;
+}
+
+#box1 {
+    width: 40%;
+    border-right: 2px solid grey;
+}
+
+#box1 button,
+#box1 input {
+    margin-top: 20px;
+    margin-right: 20px;
+    height: 30px;
+    width: 150px;
+    word-spacing: 2px;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #7B3FD3;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+button:hover {
+    color: black;
+    background-color: #ccb4f1;
+    border: 2px solid #7B3FD3;
+}
+
+#box1 button {
+    margin-left: 15px
+}
+
+#box1 input {
+    width: 180px;
+}
+
+#add-question {
+    margin-top: 20px;
+    height: 500px;
+    background-color: #cdbaea;
+    overflow-x: scroll;
+}
+
+#portal {
+    width: 600px;
+    margin-left: 20%;
+    margin-top: 60px;
+    word-spacing: 2px;
+    line-height: 30px;
+}
+
+#portal input {
+    height: 25px;
+    margin-bottom: 15px;
+}
+
+#submit-btn {
+    height: 30px;
+    width: 75px;
+    font-size: large;
+    position: relative;
+    left: 84%;
+    color: white;
+    border: none;
+}
+
+#portal button:hover {
+    color: black;
+    background-color: #ccb4f1;
+    border: 2px solid #7B3FD3;
+}
+
+#text-question {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.query {
+    border: 2px solid #7B3FD3;
+    margin: 10px 10px 0 10px;
+    padding: 5px;
+    line-height: 25px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+#display img {
+    display: none;
+}
+
+.query:hover {
+    background-color: #7B3FD3;
+    color: white;
+}
+
+.query img {
+    width: 25px;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    cursor: pointer;
+}
+
+#box3 {
+    width: 650px;
+    margin-left: 5%;
+    word-spacing: 2px;
+    line-height: 30px;
+}
+
+#display-box {
+    height: auto;
+    border-radius: 5px;
+    line-height: 20px;
+    padding: 10px;
+    background-color: #ccb4f1;
+    border: none;
+    word-wrap: break-word;
+}
+
+.question-box p,
+.response p {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.response p {
+    margin-top: 10px;
+}
+
+.add-response p {
+    margin-top: 30px;
+    font-size: large;
+    color: grey;
+}
+
+#box3 {
+    position: relative;
+}
+
+.question-box button,
+#response-btn {
+    width: 70px;
+    height: 30px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    margin-top: 10px;
+    position: absolute;
+    right: 0px;
+
+}
+
+.question-box button:hover {
+    color: black;
+    background-color: #ccb4f1;
+    border: 2px solid #7B3FD3;
+
+}
+
+#response-btn:hover {
+    color: black;
+    background-color: #ccb4f1;
+    border: 2px solid #7B3FD3;
+}
+
+#response-btn {
+    margin-top: 5px;
+}
+
+.add-response input {
+    height: 25px;
+    padding: 0 0 0 10px;
+    margin-bottom: 10px;
+}
+
+.add-response textarea {
+    padding: 10px 0 0 10px;
+}
+
+#response-box {
+    height: 130px;
+    overflow-y: scroll;
+    margin-bottom: -30px;
+}
+
+.display-response {
+    position: relative;
+    height: auto;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #ccb4f1;
+    border: none;
+    margin-bottom: 10px;
+    line-height: 15px;
+    word-wrap: break-word;
+}
+
+.display-response img {
+    width: 30px;
+    position: absolute;
+}
+
+.like-response {
+    top: 3px;
+    right: 90px;
+}
+
+.dislike-response {
+    top: 5px;
+    right: 20px;
+}
+
+.display-response span {
+    width: auto;
+    height: 20px;
+    margin-right: 30px;
+    position: absolute;
+    padding: 2px;
+}
+
+.like-count {
+    top: 35px;
+    right: 70px;
+}
+
+.dislike-count {
+    top: 35px;
+    right: -5px;
+}
+
+.timer {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    font-size: 12px;
+}
+
+.hide {
+    display: none;
+}
