@@ -1,3 +1,4 @@
+// Selecting all the necessary DOM elements by their IDs for later use
 const submitBtn = document.querySelector('#submit-btn');
 const subject = document.querySelector('#subject');
 const textField = document.querySelector('#text-question');
@@ -17,10 +18,17 @@ const responseBox = document.querySelector('#response-box');
 const searchInput = document.querySelector('#search');
 const resolve = document.querySelector('#resolve');
 
+// Fetching the list of questions from localStorage, or initializing it if empty
 let questions = JSON.parse(localStorage.getItem('questions')) || [];
-let index = questions.length > 0 ? Math.max(...questions.map(q => parseInt(q.id))) + 1 : 0;
-let currentQuestionId = null;
 
+
+// Finding the next unique question ID by looking at existing IDs in the `questions` array
+let index = questions.length > 0 ? Math.max(...questions.map(q => parseInt(q.id))) + 1 : 0;
+
+let currentQuestionId = null;  // Used to track the current active question for responses
+
+
+// Function to create the DOM structure for responses dynamically
 function createResponsDOM(responseValue, responseAreaValue, likeValue, dislikeValue, responseIndex) {
     const newDisplayDiv = document.createElement('div');
     newDisplayDiv.className = 'display-response';
@@ -28,19 +36,21 @@ function createResponsDOM(responseValue, responseAreaValue, likeValue, dislikeVa
     newDisplayDiv.innerHTML = `
         <h4>${responseValue}</h4>
         <p>${responseAreaValue}</p>
-        <img src="thumbsUp.png" id="like-response-${responseIndex}" class="like-response">
+        <img src="images/thumbsUp.png" id="like-response-${responseIndex}" class="like-response">
         <span id="like-count-${responseIndex}" class="like-count">${likeValue}</span>
         <span id="dislike-count-${responseIndex}" class="dislike-count">${dislikeValue}</span>
-        <img src="thumbsDown.png" id="dislike-response-${responseIndex}" class="dislike-response">
+        <img src="images/thumbsDown.png" id="dislike-response-${responseIndex}" class="dislike-response">
     `;
     return newDisplayDiv;
 }
 
+
+// Function to create the DOM structure for questions dynamically
 function createDOM(obj) {
     const div = document.createElement('div');
     div.className = 'query';
     div.id = obj.id;
-    const favImageSrc = obj.isfavourite === 'true' ? 'like.png' : 'dislike.png';
+    const favImageSrc = obj.isfavourite === 'true' ? 'images/like.png' : 'images/dislike.png';
     div.innerHTML = `
         <h4>${obj.subject}</h4>
         <p>${obj.text}</p>
@@ -51,6 +61,8 @@ function createDOM(obj) {
     return div;
 }
 
+
+// Removes a question and its responses, then updates localStorage
 function removeProblem(responseId) {
     const questionIndex = questions.findIndex(q => q.id === responseId);
     if (questionIndex !== -1) {
@@ -66,21 +78,27 @@ function removeProblem(responseId) {
     }
 }
 
+
+// Event listener for marking a question as resolved
 resolve.addEventListener('click', () => {
-    removeProblem(currentQuestionId);
-    display.innerHTML = '';
+    removeProblem(currentQuestionId); // Removes the current question
+    display.innerHTML = ''; // Clears the display area
 });
 
+
+// Adds a new question at the top, ensuring favorite questions stay at the top
 function appendQuestionAtTop(question) {
     const div = createDOM(question);
     const firstNonFavourite = Array.from(addQuestion.children).find(child => !child.querySelector('.favourite'));
     if (firstNonFavourite) {
-        addQuestion.insertBefore(div, firstNonFavourite);
+        addQuestion.insertBefore(div, firstNonFavourite);  // Inserts before the first non-favorite question
     } else {
-        addQuestion.appendChild(div);
+        addQuestion.appendChild(div);  // Appends if there are no non-favorites
     }
 }
 
+
+// Sorts and displays questions, ensuring favorites are listed first
 function sortAndDisplayQuestions() {
     const favouriteQuestions = [];
     const regularQuestions = [];
@@ -104,15 +122,20 @@ function sortAndDisplayQuestions() {
     });
 }
 
+
+// Saves questions to localStorage
 const saveQuestions = (questions) => {
     localStorage.setItem('questions', JSON.stringify(questions));
 };
 
+
+// Loads and displays responses for a specific question
 const loadResponses = (questionId) => {
     responseBox.innerHTML = '';
     const question = questions.find(q => q.id === questionId);
 
     if (question) {
+        // Sorts responses by likes minus dislikes
         const sortedResponses = question.responses.slice();
         sortedResponses.sort((a, b) => {
             const diffA = a.like - a.dislike;
@@ -129,17 +152,19 @@ const loadResponses = (questionId) => {
             const newDisplayDiv = createResponsDOM(response.name, response.text, response.like, response.dislike, i);
             responseBox.appendChild(newDisplayDiv);
 
+
             const likeBtn = newDisplayDiv.querySelector(`#like-response-${i}`);
             const dislikeBtn = newDisplayDiv.querySelector(`#dislike-response-${i}`);
 
+            // Event listeners for like/dislike buttons
             likeBtn.addEventListener('click', () => {
                 response.like++;
                 const responseIndex = question.responses.findIndex(r => r.name === response.name && r.text === response.text);
                 if (responseIndex !== -1) {
                     questions[questions.indexOf(question)].responses[responseIndex].like = response.like;
-                    saveQuestions(questions);
+                    saveQuestions(questions);  // Update localStorage with new like count
                     document.querySelector(`#like-count-${i}`).textContent = response.like;
-                    loadResponses(questionId);
+                    loadResponses(questionId);  // Reload responses to update like count
                 }
             });
 
@@ -158,6 +183,8 @@ const loadResponses = (questionId) => {
 };
 
 
+
+// Adds a new response to the current question
 const saveResponse = () => {
     const question = questions.find(q => q.id === currentQuestionId);
     if (question) {
@@ -167,7 +194,7 @@ const saveResponse = () => {
             like: 0,
             dislike: 0,
         });
-        saveQuestions(questions);
+        saveQuestions(questions);  // Saves the updated responses to localStorage
     }
 };
 
@@ -188,12 +215,12 @@ function toggleFavourite(e) {
     const question = questions.find(q => q.id === questionId);
 
     if (image.classList.contains('favourite')) {
-        image.src = 'dislike.png';
+        image.src = 'images/dislike.png';
         image.classList.remove('favourite');
         question.isfavourite = 'false';
         addQuestion.appendChild(questionDiv);
     } else {
-        image.src = 'like.png';
+        image.src = 'images/like.png';
         image.classList.add('favourite');
         question.isfavourite = 'true';
         questionDiv.remove();
@@ -222,6 +249,9 @@ submitBtn.addEventListener('click', () => {
     }
 });
 
+
+
+// Add question to the question list
 addQuestion.addEventListener('click', (e) => {
     if (e.target.closest('.query')) {
         const queryDiv = e.target.closest('.query');
@@ -245,6 +275,8 @@ addQuestion.addEventListener('click', (e) => {
     }
 });
 
+
+// Removed the resolved question from the list
 responseBtn.addEventListener('click', () => {
     const responseValue = response.value.trim();
     const responseAreaValue = responseArea.value.trim();
@@ -255,6 +287,8 @@ responseBtn.addEventListener('click', () => {
     }
 
     responseBox.insertBefore(createResponsDOM(responseValue, responseAreaValue, 0, 0, index), responseBox.firstChild);
+    responseBox.lastChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 
     saveResponse();
     loadResponses(currentQuestionId);
@@ -265,11 +299,15 @@ responseBtn.addEventListener('click', () => {
 
 searchInput.addEventListener('input', searchQuestions);
 
+
+// HighLite the the searched question words
 function highlightText(text, query) {
     const regex = new RegExp(`(${query})`, 'gi');
     return text.replace(regex, '<mark>$1</mark>');
 }
 
+
+// Search the question from the question list
 function searchQuestions() {
     const searchText = searchInput.value.toLowerCase().trim();
     const allQuestions = addQuestion.querySelectorAll('.query');
@@ -288,11 +326,13 @@ function searchQuestions() {
     });
 }
 
+
+// Display the time when a question is added
 function setTime(time) {
     const createTime = (Date.now() - time) / 1000;
 
     if (createTime < 60)
-        return `${Math.floor(createTime)} seconds ago`;
+        return `few seconds ago`;
     else if (createTime < 3600)
         return `${Math.floor(createTime / 60)} minutes ago`;
     else if (createTime < 86400)
@@ -306,6 +346,8 @@ function setTime(time) {
 
 }
 
+
+// update the time 
 function updateTimers() {
     questions.forEach(question => {
         const timerElement = document.querySelector(`#timer-${question.id}`);
@@ -315,6 +357,6 @@ function updateTimers() {
     });
 }
 
-setInterval(updateTimers, 1000);
+setInterval(updateTimers, 10000);  // update time in every minute
 
 sortAndDisplayQuestions();
